@@ -51,23 +51,30 @@ int main(){
   
   printf("Estructura en archivo\n");
   muestraMatriz(p);
-
+  
+  int i = 0;
+  for(i=0; i<NUMFILAS;i++){
   int n=fork();
+  int [] valoresFork = n;
+  
+  
+  
   if(n == -1){
      perror("Fallo en fork()...");
      exit(-1);
   } else if (n == 0){
      printf ("Proceso hijo con pid: %d\n", getpid());
-     p[0].suma=22;
+     p[i].suma=22;
      close(fd);
      printf ("Proceso hijo con pid: %d termina\n", getpid());
      exit(0);
    }else{
      wait(&status);
      printf ("Proceso padre con pid: %d\n", getpid());
-     p[1].suma=222;
+     p[i].suma=222;
      close(fd);
    }
+  }
 
   muestraMatriz(p);
      
@@ -84,9 +91,6 @@ void muestraMatriz(pfila_t m){
   int f=0, v=0;
   for(;f<NUMFILAS; f++){
 	printf("fila %d: %ld ", f, m[f].suma);
-	/*for(v=0;v<DIMFILA; v++){
-		printf("%d ", m[f].vector[v]);
-	}*/
 	printf("\n");
    }
 }
