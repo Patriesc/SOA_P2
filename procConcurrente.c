@@ -8,8 +8,8 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-#define DIMFILA 10
-#define NUMFILAS 20
+#define DIMFILA 100000
+#define NUMFILAS 2000
 
 typedef struct fila{
  int vector[DIMFILA];
