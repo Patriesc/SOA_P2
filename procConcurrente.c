@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -22,9 +23,9 @@ void sumaFila(pfila_t);
 void muestraMatriz(pfila_t);
 
 int main(){
-  int fd, i, cero=0;
+  int fd, i;
   pfila_t p;
-  int status;
+  
   int f=0, v=0;
   for(;f<NUMFILAS; f++){
 	matriz[f].suma=0;
@@ -52,27 +53,17 @@ int main(){
   printf("Estructura en archivo\n");
   muestraMatriz(p);
   
-  int x = 0;
-  for(x=0; x<NUMFILAS;x++){
-  int n=fork();
-  int valoresFork[NUMFILAS] = n;
-  if(n == -1){
-     perror("Fallo en fork()...");
-     exit(-1);
-  } else if (n == 0){
-     printf ("Proceso hijo con pid: %d\n", getpid());
-     p[x].suma=22;
-     close(fd);
-     printf ("Proceso hijo con pid: %d termina\n", getpid());
-     exit(0);
-   }else{
-     wait(&status);
-     printf ("Proceso padre con pid: %d\n", getpid());
-     p[x].suma=222;
-     close(fd);
-   }
-  }
-
+    for (int i = 0; i < NUMFILAS; i++) {
+        if (fork() == 0) {
+            for (int j = 0; j < DIMFILA; j++) {
+                p[i].suma += p[i].vector[j];
+            }
+            exit(0);
+        }
+    }
+    for (int i = 0; i < NUMFILAS; i++) {
+        wait(NULL);
+    }
   muestraMatriz(p);
      
 }
